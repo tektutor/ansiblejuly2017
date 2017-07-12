@@ -1,0 +1,8 @@
+---
+- name: Deploy home page in Apache under Ubuntu Server
+  template: src=index.html.j2 dest=/usr/share/apache2/default-site/index.html
+  when: ( ansible_distribution == "Ubuntu" and ansible_os_family == "Debian" )
+
+- name: Deploy home page in Apache under CentOS Server
+  template: src=index.html.j2 dest=/usr/share/httpd/default-site/index.html
+  when: ( ansible_distribution == "CentOS" and ansible_os_family == "RedHat" )

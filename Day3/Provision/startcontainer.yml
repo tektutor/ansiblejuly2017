@@ -1,0 +1,17 @@
+---
+
+- name: This play will start a docker container on the fly
+  hosts: localhost
+
+  tasks:
+   - name: Provision a docker container - start a docker container
+     docker_container:
+        docker_host: tcp://localhost:4243
+        api_version: 1.18
+        image: tektutor/ansible-ubuntu
+        hostname: ubuntu1
+        name: ubuntu_server1
+        state: started
+        ports:
+          - "5000:22"
+          - "5500:80"

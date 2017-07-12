@@ -1,0 +1,19 @@
+---
+
+- hosts: ubuntu 
+  become: yes
+
+  vars:
+    proxy_configuration:
+      http_proxy: http://10.19.16.165:8080
+      https_proxy: https://10.19.16.165:8080
+
+    software_packages:
+      - tree
+      - vim
+
+  tasks:
+    - name: Demonstrates installing softwares with a list variable
+      apt: name="{{item}}" state=latest update_cache=yes
+      with_items: "{{software_packages}}" 
+      environment: "{{proxy_configuration}}"

@@ -1,0 +1,12 @@
+---
+- name: This play will demonstrate using our custom apache2 role
+  hosts: all
+  become: yes
+
+  vars_files:
+    - configuration
+  vars:
+      environment: "{{ configuration }}"
+  
+  roles:
+    - apache2

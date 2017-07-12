@@ -1,0 +1,11 @@
+[ubuntu]
+devserver1 ansible_port=2000
+
+[centos]
+devserver2 ansible_port=4000
+
+[all:vars]
+ansible_host=localhost
+ansible_user=root
+ansible_become_user=root
+ansible_become_password=root

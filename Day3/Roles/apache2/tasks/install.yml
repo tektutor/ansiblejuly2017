@@ -1,0 +1,15 @@
+---
+- name: Install apache2 in Ubuntu
+  apt: name=apache2 state=present update_cache=yes
+  when: ( ansible_distribution == "Ubuntu" and ansible_os_family == "Debian" )
+  environment: "{{ proxy_details }}"
+
+- name: Install epel package in CentOS 
+  yum: name=epel-release state=present
+  when: ( ansible_distribution == "CentOS" and ansible_os_family == "RedHat" )
+  environment: "{{ proxy_details }}"
+
+- name: Install apache2 in CentOS 
+  yum: name=httpd state=present
+  when: ( ansible_distribution == "CentOS" and ansible_os_family == "RedHat" )
+  environment: "{{ proxy_details }}"

@@ -1,0 +1,5 @@
+---
+
+- name: This is a posttask
+  debug: 
+    msg: This task will get executed after all the other tasks

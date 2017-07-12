@@ -1,0 +1,6 @@
+---
+
+- name: This is a pretask
+  debug: 
+    msg: This task will get executed before the tasks
+

@@ -1,0 +1,14 @@
+---
+
+- hosts: all
+
+  pre_tasks:
+    - include: pre_task.yml
+
+  tasks:
+    - debug: 
+        msg: This is a task
+   
+  post_tasks:
+    - include: post_task.yml
+  

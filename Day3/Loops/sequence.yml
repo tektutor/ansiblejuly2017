@@ -1,0 +1,8 @@
+---
+
+- hosts: localhost 
+
+  tasks:
+    - name: Demonstrates sequence
+      debug: msg="{{item}}"
+      with_sequence: count=10

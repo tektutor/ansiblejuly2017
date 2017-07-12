@@ -1,0 +1,13 @@
+---
+
+- name: Configure apache2 in Ubuntu
+  copy: src=apache2.conf dest=/etc/apache2/apache.conf
+  when: ( ansible_distribution == "Ubuntu" and ansible_os_family == "Debian" )
+  notify:
+     - Restart apache web server in Ubuntu server
+
+- name: Configure apache2 in CentOS 
+  copy: src=httpd.conf dest=/etc/httpd/httpd.conf
+  when: ( ansible_distribution == "CentOS" and ansible_os_family == "RedHat" )
+  notify:
+     - Restart apache web server in CentOS server
