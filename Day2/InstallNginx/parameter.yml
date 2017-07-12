@@ -1,0 +1,12 @@
+---
+
+- hosts: devserver2 
+  become: yes 
+  vars:
+    tool: "{{ansible_pkg_mgr}}"
+
+  tasks:
+   - name: Identify the package manager
+     debug: var=tool
+   
+

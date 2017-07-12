@@ -1,0 +1,65 @@
+- name: This play will instal nginx web server
+  hosts: devserver2 
+
+  become: yes
+
+  vars:
+    greeting_msg: "Hello Ansible!"
+    automation_tool: "Ansible"
+    provisioner_tool: "Docker"
+
+    proxy_env:
+      http_proxy: http://10.19.16.165:8080
+      https_proxy: https://10.19.16.165:8080
+
+  tasks:
+   - name: Install nginx web server on Ubuntu
+     apt: name=nginx state=latest update_cache=yes
+     environment: "{{ proxy_env }}"
+     when: ( ansible_distribution == "Ubuntu" and ansible_os_family == "Debian" )
+
+   - name: Install epel package on CentOS 
+     yum: name=epel-release state=latest
+     environment: "{{ proxy_env }}"
+     when: ( ansible_distribution == "CentOS" and ansible_os_family == "RedHat" )
+
+   - name: Install nginx web server on CentOS 
+     yum: name=nginx state=present
+     environment: "{{ proxy_env }}"
+     when: ( ansible_distribution == "CentOS" and ansible_os_family == "RedHat" )
+
+   - name: Print greeting message
+     debug: var=greeting_msg
+
+   - name: Configure nginx web server on Ubuntu
+     copy: src=nginx_ubuntu.conf dest=/etc/nginx/nginx.conf 
+     when: ( ansible_distribution == "Ubuntu" and ansible_os_family == "Debian" )
+     notify:
+       - Restart nginx web server
+     tags:
+       - update 
+
+   - name: Copy the nginx.conf from Ubuntu container to Ansible control machine
+     fetch: src=/etc/nginx/nginx.conf dest=nginx_ubuntu_copy.conf flat=yes
+     when: ( ansible_distribution == "Ubuntu" and ansible_os_family == "Debian" )
+     tags:
+       - copy
+
+   - name: Copy the nginx.conf from CentOS container to Ansible control machine
+     fetch: src=/etc/nginx/nginx.conf dest=nginx_centos_copy.conf flat=yes
+     when: ( ansible_distribution == "CentOS" and ansible_os_family == "RedHat" )
+
+   - name: Configure nginx web server on CentOS
+     copy: src=nginx_centos.conf dest=/etc/nginx/nginx.conf 
+     when: ( ansible_distribution == "CentOS" and ansible_os_family == "RedHat" )
+     notify:
+       - Restart nginx web server
+
+   - name: Deploy home page into nginx web server
+     template: src=index.html.j2 dest=/usr/share/nginx/html/index.html
+     notify:
+       - Restart nginx web server
+
+  handlers:
+   - name: Restart nginx web server
+     service: name=nginx state=restarted

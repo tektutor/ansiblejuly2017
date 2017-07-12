@@ -1,0 +1,9 @@
+- name: This play will instal nginx web server
+  hosts: localhost 
+
+  vars:
+    greeting_msg: "Hello Ansible!"
+
+  tasks:
+   - name: Print greeting message
+     debug: var=greeting_msg

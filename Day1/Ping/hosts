@@ -1,0 +1,8 @@
+[dev]
+server1 ansible_port=2000
+
+[qa]
+server2 ansible_port=3000 
+
+[all:vars]
+ansible_host=localhost

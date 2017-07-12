@@ -1,0 +1,7 @@
+---
+
+- hosts: localhost 
+
+  tasks:
+    - debug: msg="tree-{{ item }}.rpm"
+      with_sequence: start=0 end=5 
